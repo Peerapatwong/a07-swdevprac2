@@ -1,7 +1,6 @@
 'use client'
 
 import { useReducer } from "react";
-import { useRouter } from "next/navigation";
 import Card from "./Card";
 import Link from "next/link";
 
@@ -38,7 +37,6 @@ function ratingReducer(state: RatingMap, action: Action): RatingMap {
 
 export default function CardPanel() {
     const [ratingMap, dispatch] = useReducer(ratingReducer, initialRatings);
-    const router = useRouter();
 
     return(
         <div className="flex flex-col w-full gap-5">
