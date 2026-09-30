@@ -43,10 +43,8 @@ export default function CardPanel() {
             <div className="flex flex-auto flex-row flex-wrap justify-around align-around m-5 w-full">
                 {
                     mockVenue.map((venue) => (
-                        <Link href={`/venue/${venue.vid}`} key={venue.vid}>
-                            <Card key={venue.vid} venueName={venue.name} imgSrc={venue.imgSrc}
-                            onRatingChange={(rating) => dispatch({ type: 'UPDATE_RATING', venueName: venue.name, rating: rating ?? 0})}/>
-                        </Link>
+                        <Card key={venue.vid} vid={venue.vid} venueName={venue.name} imgSrc={venue.imgSrc}
+                        onRatingChange={(rating) => dispatch({ type: 'UPDATE_RATING', venueName: venue.name, rating: rating ?? 0})}/>
                     ))
                 }
             </div>
