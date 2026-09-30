@@ -1,7 +1,9 @@
 'use client'
 
 import { useReducer } from "react";
+import { useRouter } from "next/navigation";
 import Card from "./Card";
+import Link from "next/link";
 
 type RatingMap = Map<string, number>;
 const initialRatings: RatingMap = new Map([
@@ -9,6 +11,11 @@ const initialRatings: RatingMap = new Map([
     ['Spark Space', 0],
     ['The Grand Table', 0]
 ])
+
+const mockVenue = [{vid: "001", name: "The Bloom Pavilion", imgSrc: "/img/bloom.jpg" },
+                   {vid: "002", name: "Spark Space", imgSrc: "/img/sparkspace.jpg"},
+                   {vid: "003", name: "The Grand Table", imgSrc: "/img/grandTable.jpg"}
+]
     
 type Action = { type: 'UPDATE_RATING'; venueName: string; rating: number }
             | {type: 'REMOVE_VENUE'; venueName: string }
@@ -31,16 +38,19 @@ function ratingReducer(state: RatingMap, action: Action): RatingMap {
 
 export default function CardPanel() {
     const [ratingMap, dispatch] = useReducer(ratingReducer, initialRatings);
+    const router = useRouter();
 
     return(
         <div className="flex flex-col w-full gap-5">
             <div className="flex flex-auto flex-row flex-wrap justify-around align-around m-5 w-full">
-                <Card venueName="The Bloom Pavilion" imgSrc="bloom.jpg" 
-                onRatingChange={(rating) => dispatch({ type: 'UPDATE_RATING', venueName: 'The Bloom Pavilion', rating: rating ?? 0})}/>
-                <Card venueName="Spark Space" imgSrc="sparkspace.jpg"
-                onRatingChange={(rating) => dispatch({ type: 'UPDATE_RATING', venueName: "Spark Space", rating: rating ?? 0 })}/>
-                <Card venueName="The Grand Table" imgSrc="grandtable.jpg"
-                onRatingChange={(rating) => dispatch({ type: 'UPDATE_RATING', venueName: 'The Grand Table', rating: rating ?? 0})}/>
+                {
+                    mockVenue.map((venue) => (
+                        <Link href={`/venue/${venue.vid}`} key={venue.vid}>
+                            <Card key={venue.vid} venueName={venue.name} imgSrc={venue.imgSrc}
+                            onRatingChange={(rating) => dispatch({ type: 'UPDATE_RATING', venueName: venue.name, rating: rating ?? 0})}/>
+                        </Link>
+                    ))
+                }
             </div>
             
             <div className="m-5 ">
